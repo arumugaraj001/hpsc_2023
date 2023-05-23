@@ -123,5 +123,126 @@ for points,threads in zip(points_list,threads_list):
     print(f"number of points = {points: .1e}")
     print(command)
     time1=time.time()
+    
+    
+    
+import matplotlib.pyplot as plt
+import numpy as np
+x = []
+u = []
+with open('heatsoln.txt') as f:
+    for line in f:
+        row=line.split()
+        x.append(row[0])
+        u.append(row[-1])
+x=x[1:]
+u=u[1:]
+x_ar=np.array(x)
+x_array = x_ar.astype(np.float64)
+u_ar=np.array(u)
+u_array = u_ar.astype(np.float64)
+u_exact=(100*np.exp(1.)-60)*x_array + 120 - 100*np.exp(x_array)
+plt.plot(x_array[0:-1:1],u_array[0:-1:1],'bo')
+plt.plot(x_array,u_exact,'r')
 
+plt.xlabel('x')
+plt.ylabel('u')
+plt.show()
+
+
+
+import matplotlib.pyplot as plt
+import numpy as np
+x = []
+u = []
+with open('heatsoln.txt') as f:
+    for line in f:
+        row=line.split()
+        x.append(row[0])
+        u.append(row[-1])
+x=x[1:]
+u=u[1:]
+x_ar=np.array(x)
+x_array = x_ar.astype(np.float64)
+u_ar=np.array(u)
+u_array = u_ar.astype(np.float64)
+u_exact=(100*np.exp(1.)-60)*x_array + 120 - 100*np.exp(x_array)
+plt.plot(x_array[0:-1:3],u_array[0:-1:3],'bo')
+plt.plot(x_array,u_exact,'r')
+
+plt.xlabel('x')
+plt.ylabel('u')
+plt.show()
+
+
+
+from pylab import *
+
+# read in three columns from file and unpack into 3 arrays:
+n,int_approx,error = loadtxt('mc_laplace_error.txt',unpack=True)
+
+figure(1)
+clf()
+loglog(n,error,'-o',label='Monte-Carlo')
+loglog([1,1e7],[1,sqrt(1e-7)],'k',label='1 / sqrt(N)')
+legend()
+xlabel('number of random walks taken')
+ylabel('abs(error)')
+title('Log-log plot of relative error in MC Laplace')
+savefig('mc_laplace_error.png')
+
+
+import matplotlib.pyplot as plt
+from numpy import *
+x=linspace(0,6*pi,100)
+y=sin(x)
+plt.plot(x,y)
+#print(x)
+
+
+from numpy import exp
+import numpy as np
+import matplotlib.pyplot as plt
+
+def recur_factorial(n):                           #Calculating factorial of a number
+                if n == 1 or n== 0:
+                    return 1
+                else:
+                    return n*recur_factorial(n-1)
+                
+def your_exp(a,b,n=100):                          #Calculating exponential using user-defined function your_exp()
+    '''
+    To calculate the exponent of a series of numbers.
+    
+    Input: Enter the first and last term of the series and the number of intervals you want inbetween
+    
+    Output: The exponential of the series is displayed from both your_exp() and numpy_exp() and the output is also plotted.
+    '''
+    import numpy as np
+    exp_array= np.zeros(n)
+    exp_list = []
+    my_array = np.linspace(a,b,n)
+    tol = 1e-6
+    for x in my_array:
+        expon = 0
+        for y in range(150):
+            expon0 = expon
+            expon += x**y / recur_factorial(y)   #function calling to find factorial of a number
+            delta_expon = expon - expon0
+            if(abs(delta_expon)/expon)<tol:
+                print(expon)                     #Printing of your_exp()
+                break
+        exp_list.append(expon)
+    print ( exp(np.linspace(a,b,n)))             #Calculating and printing exponential using numpy exp() function
+    
+    
+    
+    plt.plot(my_array,exp_list, 'r', label='your_exp')    #Plotting of your_exp() and numpy_exp()
+    plt.ylabel ('exponential')
+    plt.xlabel('values')
+    plt.plot( my_array, exp(np.linspace(a,b,n)),'x', label = 'numpy_exp')
+    plt.title('Graph for your_exp vs numpy_exp')
+    plt.legend(['your_exp', 'numpy_exp'], loc= 'upper left')
+    plt.savefig('your_exp vs numpy_exp .png')
+    plt.show()
 
